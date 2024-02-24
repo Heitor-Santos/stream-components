@@ -1,7 +1,5 @@
 #include "node.h"
 
-#include <iostream>
-
 using namespace std;
 
 Node::Node(bool _occupied, int _element) {
@@ -58,24 +56,69 @@ void Node::removeFromParentChildren(){
     }
 }
 
-void Node::addOnlyChildToParentChildren(){
-    Node* only_child = children_tail;
+void Node::addNodeToParentChildren(Node* node){
     Node* parent_last_child = parent->children_tail;
     if(parent_last_child != nullptr){
-        parent_last_child->next_sibling = only_child;
-        only_child->prev_sibling = parent_last_child;
+        parent_last_child->next_sibling = node;
+        node->prev_sibling = parent_last_child;
     }
-    parent->children_tail = only_child;
+    parent->children_tail = node;
     parent->children_count++;
 }
 
-void Node::addOnlyChildToParentChildrenWithChildren(){
-    Node* only_child = children_tail;
+void Node::addNodeToParentChildrenWithChildren(Node* node){
     Node* parent_last_child_with_children = parent->children_with_children_tail;
     if(parent_last_child_with_children != nullptr){
-        parent_last_child_with_children->next_sibling_with_children = only_child;
-        only_child->prev_sibling_with_children = parent_last_child_with_children;
+        parent_last_child_with_children->next_sibling_with_children = node;
+        node->prev_sibling_with_children = parent_last_child_with_children;
     }
-    parent->children_with_children_tail = only_child;
+    parent->children_with_children_tail = node;
     parent->children_with_children_count++;
+}
+
+void Node::addToParentChildren(){
+    addNodeToParentChildren(this);
+}
+
+void Node::addToParentChildrenWithChildren(){
+    addNodeToParentChildrenWithChildren(this);
+}
+
+void Node::addOnlyChildToParentChildren(){
+    addNodeToParentChildren(children_tail);
+}
+
+void Node::addOnlyChildToParentChildrenWithChildren(){
+    addNodeToParentChildrenWithChildren(children_tail);
+}
+
+Node* Node::getParent(){
+    return parent;
+}
+
+Node* Node::setParent(Node* _parent){
+    parent = _parent;
+    return this;
+}
+
+int Node::getRank(){
+    return rank;
+}
+
+Node* Node::setRank(int _rank){
+    rank = _rank;
+    return this;
+}
+
+bool Node::isOccupied(){
+    return occupied;
+}
+
+Node* Node::setOccupied(bool _occupied){
+    occupied = _occupied;
+    return this;
+}
+
+Node* Node::onlyChild(){
+    return children_tail;
 }
