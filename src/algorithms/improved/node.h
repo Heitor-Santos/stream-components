@@ -1,9 +1,4 @@
 #pragma once
-#include <fstream>
-#include <string>
-#include <string.h>
-#include <list>
-#include <set> 
 
 class Node{
 
@@ -26,7 +21,11 @@ public:
     bool isLeaf();
     bool isRoot();
     bool hasPrevChildren();
+    bool hasOnlyOneChild();
     bool hasPrevChildrenWithChildren();
     bool isTailofTheChildrenList();
     bool isTailofTheChildrenWithChildrenList();
+    void removeFromParentChildren();
+    void addOnlyChildToParentChildren();
+    void addOnlyChildToParentChildrenWithChildren();
 };
