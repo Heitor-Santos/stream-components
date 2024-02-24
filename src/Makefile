@@ -7,7 +7,7 @@ all: clean compile
 
 compile:
 	@mkdir $(BIN)
-	@$(CC) $(CFLAGS) main.cpp utils.cpp algorithms/*.cpp -o $(BIN)/$(TARGET)
+	@$(CC) $(CFLAGS) main.cpp utils.cpp algorithms/*/*.cpp -o $(BIN)/$(TARGET)
 
 clean:
 	@rm -rf $(BIN)

@@ -1,5 +1,5 @@
 #include "utils.h"
-#include "algorithms/original.h"
+#include "algorithms/original/original.h"
 
 #include <iostream>
 #include <string>
