@@ -44,7 +44,7 @@ void UnionFind::unionElements(int indexA, int indexB){
     }
 }
 
-void UnionFind::deleteElements(int index){
+void UnionFind::deleteElement(int index){
     Node* node = uf[index];
     node->setOccupied(false);
     if(!node->isLeaf()){

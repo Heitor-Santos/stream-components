@@ -1,5 +1,6 @@
 #include "utils.h"
 #include "algorithms/original/original.h"
+#include "algorithms/improved/improved.h"
 
 #include <iostream>
 #include <string>
@@ -65,13 +66,19 @@ int main(int argc, char **argv) {
     list<edge>incoming_edges;
     list<edge>outgoing_edges;
     OriginalStreamer originalStreamer(output_file);
-    Streamer& streamer = originalStreamer;
+    ImprovedStreamer improvedStreamer(output_file);
+    Streamer* streamerPtr;
+    if (algorithm == "original") {
+        streamerPtr = &originalStreamer;
+    } else {
+        streamerPtr = &improvedStreamer;
+    }
     while (reader.next_line(line)) {
         curr_read = stoi(line);
         removed_nodes = processSet(reader);
         incoming_edges = processEdges(reader);
         outgoing_edges = processEdges(reader);
-        streamer.update_components(curr_read, incoming_edges, outgoing_edges, removed_nodes);
+        streamerPtr->update_components(curr_read, incoming_edges, outgoing_edges, removed_nodes);
     }
     reader.close();
 }

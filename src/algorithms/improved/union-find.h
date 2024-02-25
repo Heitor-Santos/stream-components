@@ -17,5 +17,5 @@ public:
     Node* find(int index);
     void makeset(int element);
     void unionElements(int indexA, int indexB);
-    void deleteElements(int index);
+    void deleteElement(int index);
 };

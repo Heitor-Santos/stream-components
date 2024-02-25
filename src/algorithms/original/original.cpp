@@ -97,5 +97,5 @@ void OriginalStreamer::update_components(int curr_read, const std::list<edge>& i
 
     mapping_components.erase(removed_node); 
   }
-  printValues(mapping_components, component_members);
+  //printValues(mapping_components, component_members);
 }
