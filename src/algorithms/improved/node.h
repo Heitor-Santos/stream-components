@@ -41,4 +41,5 @@ public:
     bool isOccupied();
     Node* setOccupied(bool _occupied);
     Node* onlyChild();
+    int getElement();
 };

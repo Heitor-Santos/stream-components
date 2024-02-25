@@ -57,23 +57,35 @@ void Node::removeFromParentChildren(){
 }
 
 void Node::addNodeToParentChildren(Node* node){
-    Node* parent_last_child = parent->children_tail;
-    if(parent_last_child != nullptr){
-        parent_last_child->next_sibling = node;
-        node->prev_sibling = parent_last_child;
+    if(!isRoot()){
+        Node* parent_last_child = parent->children_tail;
+        if(parent_last_child != nullptr){
+           parent_last_child->next_sibling = node;
+           node->prev_sibling = parent_last_child;
+        }
+        parent->children_tail = node;
+        parent->children_count++;   
     }
-    parent->children_tail = node;
-    parent->children_count++;
+    else{
+        node->prev_sibling = nullptr;
+        node->next_sibling = nullptr;
+    }
 }
 
 void Node::addNodeToParentChildrenWithChildren(Node* node){
-    Node* parent_last_child_with_children = parent->children_with_children_tail;
-    if(parent_last_child_with_children != nullptr){
-        parent_last_child_with_children->next_sibling_with_children = node;
-        node->prev_sibling_with_children = parent_last_child_with_children;
+    if(!isRoot()){
+        Node* parent_last_child_with_children = parent->children_with_children_tail;
+        if(parent_last_child_with_children != nullptr){
+            parent_last_child_with_children->next_sibling_with_children = node;
+            node->prev_sibling_with_children = parent_last_child_with_children;
+        }
+        parent->children_with_children_tail = node;
+        parent->children_with_children_count++;
     }
-    parent->children_with_children_tail = node;
-    parent->children_with_children_count++;
+    else{
+        node->prev_sibling_with_children = nullptr;
+        node->next_sibling_with_children = nullptr;
+    }
 }
 
 void Node::addToParentChildren(){
@@ -121,4 +133,8 @@ Node* Node::setOccupied(bool _occupied){
 
 Node* Node::onlyChild(){
     return children_tail;
+}
+
+int Node::getElement(){
+    return element;
 }

@@ -4,23 +4,6 @@
 
 using namespace std;
 
-void printValues(const std::unordered_map<int, int>& mapping_components, const std::unordered_map<int, std::set<int>>& component_members) {
-    std::cout << "Values in mapping_components:" << std::endl;
-    for (const auto& pair : mapping_components) {
-        std::cout << pair.second << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "Values in component_members:" << std::endl;
-    for (const auto& pair : component_members) {
-        const std::set<int>& members = pair.second;
-        for (int value : members) {
-            std::cout << value << " ";
-        }
-        std::cout << std::endl;
-    }
-}
-
 OriginalStreamer::OriginalStreamer(string &output_file) {
     writer = FileWriter(output_file);
     mapping_components = unordered_map<int, int>();
@@ -64,9 +47,9 @@ void OriginalStreamer::relabel_components(int curr_read, const bool incoming, co
   }
 }
 
-void OriginalStreamer::update_components(int curr_read, const std::list<edge>& incoming_edges, const std::list<edge>& outgoing_edges, const std::set<int>& removed_nodes) {
+string OriginalStreamer::update_components(int curr_read, const std::list<edge>& incoming_edges, const std::list<edge>& outgoing_edges, const std::set<int>& removed_nodes) {
   if (removed_nodes.find(curr_read) != removed_nodes.end()) {
-    return;
+    return "empty";
   } 
   
   // The current read starts off as its own component 
@@ -97,5 +80,9 @@ void OriginalStreamer::update_components(int curr_read, const std::list<edge>& i
 
     mapping_components.erase(removed_node); 
   }
+  string compText = Utils().orderedMapText(component_members);
+  writer.append_text(compText);
+  return compText;
+  //Utils().printOrderedMap(component_members);
   //printValues(mapping_components, component_members);
 }

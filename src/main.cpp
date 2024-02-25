@@ -65,20 +65,35 @@ int main(int argc, char **argv) {
     set<int>removed_nodes;
     list<edge>incoming_edges;
     list<edge>outgoing_edges;
+    string output_file_improved = output_file+"improved";
     OriginalStreamer originalStreamer(output_file);
-    ImprovedStreamer improvedStreamer(output_file);
+    ImprovedStreamer improvedStreamer(output_file_improved);
     Streamer* streamerPtr;
     if (algorithm == "original") {
         streamerPtr = &originalStreamer;
     } else {
         streamerPtr = &improvedStreamer;
     }
+    string original;
+    string improved;
+    int count=0;
     while (reader.next_line(line)) {
         curr_read = stoi(line);
         removed_nodes = processSet(reader);
         incoming_edges = processEdges(reader);
         outgoing_edges = processEdges(reader);
-        streamerPtr->update_components(curr_read, incoming_edges, outgoing_edges, removed_nodes);
+        original = originalStreamer.update_components(curr_read, incoming_edges, outgoing_edges, removed_nodes);
+        improved = improvedStreamer.update_components(curr_read, incoming_edges, outgoing_edges, removed_nodes);
+        if(original != improved){
+            cout<<original<<endl;
+            cout<<"-----------------------------------------------------"<<endl;
+            cout<<improved<<endl;
+            cout<<count<<endl;
+            for(auto k: removed_nodes)cout<<k<<" ";
+            cout<<"\n";
+            break;
+        }
+        count++;
     }
     reader.close();
 }

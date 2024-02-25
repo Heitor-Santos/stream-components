@@ -22,9 +22,9 @@ void ImprovedStreamer::unionOutgoingEdges(int curr_read, const list<edge>& outgo
     }
 }
 
-void ImprovedStreamer::update_components(int curr_read, const list<edge>& incoming_edges, const list<edge>& outgoing_edges, const set<int>& removed_nodes) {
+string ImprovedStreamer::update_components(int curr_read, const list<edge>& incoming_edges, const list<edge>& outgoing_edges, const set<int>& removed_nodes) {
   if (removed_nodes.find(curr_read) != removed_nodes.end()) {
-    return;
+    return "empty";
   } 
   
   // The current read starts off as its own component 
@@ -38,4 +38,8 @@ void ImprovedStreamer::update_components(int curr_read, const list<edge>& incomi
   for(int removed_node : removed_nodes) {
     union_find.deleteElement(removed_node); 
   }
+  //Utils().printOrderedMap(union_find.getComponents());
+  string text = Utils().orderedMapText(union_find.getComponents());
+  writer.append_text(text);
+  return text;
 }

@@ -48,31 +48,45 @@ void UnionFind::deleteElement(int index){
     Node* node = uf[index];
     node->setOccupied(false);
     if(!node->isLeaf()){
-        if(!node->isRoot() && node->hasOnlyOneChild()){
+        //faz sentido essa condição do isroot?
+        //depois tentar remover todos children with children
+        if(node->hasOnlyOneChild()){
             node->onlyChild()->setParent(node->getParent());
             node->removeFromParentChildren();
             node->addOnlyChildToParentChildren();
             if(!node->onlyChild()->isLeaf()){
                 node->addOnlyChildToParentChildrenWithChildren();
             }
-            uf[index] = nullptr;
         }
     }
 
     else{
+        //tem q deletar node tbm
         node->removeFromParentChildren();
         Node* parent = node->getParent();
-        uf[index] = nullptr;
         if(!node->isRoot() && parent->isLeaf()) parent->setRank(0);
         if(!node->isRoot() && !parent->isOccupied() && parent->hasOnlyOneChild()){
             parent->onlyChild()->setParent(parent->getParent());
             parent->removeFromParentChildren();
-            if(!parent->isRoot()){
-                parent->addOnlyChildToParentChildren();
-                if(!parent->onlyChild()->isLeaf()){
-                    parent->addOnlyChildToParentChildrenWithChildren();
-                }
+            parent->addOnlyChildToParentChildren();
+            if(!parent->onlyChild()->isLeaf()){
+                parent->addOnlyChildToParentChildrenWithChildren();
             }
         }
     }
+    uf[index] = nullptr;
+}
+
+unordered_map<int, set<int>> UnionFind::getComponents(){
+    unordered_map<int, set<int>> components = unordered_map<int, set<int>>();
+    for (const auto& pair : uf) {
+        if(pair.second != nullptr){
+            int root = find(pair.first)->getElement();
+            if (components.find(root) == components.end()) {
+                components[root] = set<int>(); // Inicializa o conjunto se a chave não existir
+            }
+            components[root].insert(pair.first);
+        }
+    }
+    return components;
 }

@@ -14,7 +14,7 @@ private:
 
 public:
     ImprovedStreamer(std::string &output_file);
-    void update_components(int curr_read, const std::list<edge>& incoming_edges, const std::list<edge>& outgoing_edges, const std::set<int>& removed_nodes) override;
+    std::string update_components(int curr_read, const std::list<edge>& incoming_edges, const std::list<edge>& outgoing_edges, const std::set<int>& removed_nodes) override;
 private:
     void unionIncomingEdges(int curr_read, const std::list<edge>& incoming_edges);
     void unionOutgoingEdges(int curr_read, const std::list<edge>& outgoing_edges);
