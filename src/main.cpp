@@ -105,6 +105,7 @@ int main(int argc, char **argv) {
             original = updatedOriginal ? originalStreamer.report_components() : "empty";
             improved = updatedImproved ? improvedStreamer.report_components() : "empty";
             if(original != improved){
+                cout<<"DIFFS"<<endl;
                 printDifferences(curr_read, removed_nodes, incoming_edges, outgoing_edges, original, improved);
                 break;
             }
@@ -114,6 +115,6 @@ int main(int argc, char **argv) {
             if(fullReport && updated)streamerPtr->report_components();
         }
     }
-    if(!fullReport)streamerPtr->report_components();
+    if(!fullReport && algorithm!="debug")streamerPtr->report_components();
     reader.close();
 }
