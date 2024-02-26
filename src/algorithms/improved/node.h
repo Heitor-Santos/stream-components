@@ -9,16 +9,11 @@ private:
     int element;
     Node* prev_sibling;
     Node* next_sibling;
-    Node* prev_sibling_with_children;
-    Node* next_sibling_with_children;
     int children_count;
-    int children_with_children_count;
     Node* children_tail;
-    Node* children_with_children_tail;
 
 private:
     void addNodeToParentChildren(Node* node);
-    void addNodeToParentChildrenWithChildren(Node* node);
 
 public:
     Node(bool occupied, int element);
@@ -26,14 +21,10 @@ public:
     bool isRoot();
     bool hasPrevChildren();
     bool hasOnlyOneChild();
-    bool hasPrevChildrenWithChildren();
     bool isTailofTheChildrenList();
-    bool isTailofTheChildrenWithChildrenList();
     void removeFromParentChildren();
     void addToParentChildren();
-    void addToParentChildrenWithChildren();
     void addOnlyChildToParentChildren();
-    void addOnlyChildToParentChildrenWithChildren();
     Node* getParent();
     Node* setParent(Node* _parent);
     int getRank();

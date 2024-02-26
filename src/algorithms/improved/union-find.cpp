@@ -25,7 +25,6 @@ void UnionFind::unionAux(Node* parent, Node* node){
     node->removeFromParentChildren();
     node->setParent(parent);
     node->addToParentChildren();
-    if(!node->isLeaf())node->addToParentChildrenWithChildren();
 }
 
 void UnionFind::unionElements(int indexA, int indexB){
@@ -54,9 +53,6 @@ void UnionFind::deleteElement(int index){
             node->onlyChild()->setParent(node->getParent());
             node->removeFromParentChildren();
             node->addOnlyChildToParentChildren();
-            if(!node->onlyChild()->isLeaf()){
-                node->addOnlyChildToParentChildrenWithChildren();
-            }
         }
     }
 
@@ -69,9 +65,6 @@ void UnionFind::deleteElement(int index){
             parent->onlyChild()->setParent(parent->getParent());
             parent->removeFromParentChildren();
             parent->addOnlyChildToParentChildren();
-            if(!parent->onlyChild()->isLeaf()){
-                parent->addOnlyChildToParentChildrenWithChildren();
-            }
         }
     }
     uf[index] = nullptr;
