@@ -114,5 +114,6 @@ int main(int argc, char **argv) {
             if(fullReport && updated)streamerPtr->report_components();
         }
     }
+    if(!fullReport)streamerPtr->report_components();
     reader.close();
 }
