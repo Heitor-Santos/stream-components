@@ -76,44 +76,43 @@ int main(int argc, char **argv) {
 
     string algorithm(argv[1]);
     string input_file(argv[2]);
-    string output_file(argc > 3 ? argv[3]:"output.txt");
+    string output_file(argc > 3 ? argv[3]:"output");
     FileReader reader(input_file, false);
-    string line;
     int curr_read;
     set<int>removed_nodes;
     list<edge>incoming_edges;
     list<edge>outgoing_edges;
-    string output_file_improved = output_file+"improved";
-    OriginalStreamer originalStreamer(output_file);
+    string output_file_original = output_file+"_original";
+    string output_file_improved = output_file+"_improved";
+    OriginalStreamer originalStreamer(output_file_original);
     ImprovedStreamer improvedStreamer(output_file_improved);
+    string line, original, improved;
     Streamer* streamerPtr;
-    if (algorithm == "original") {
+    bool fullReport = algorithm[0]=='f';
+    if (algorithm == "original" || algorithm == "foriginal") {
         streamerPtr = &originalStreamer;
     } else {
         streamerPtr = &improvedStreamer;
     }
-    string original;
-    string improved;
-    int count=0;
     while (reader.next_line(line)) {
         curr_read = stoi(line);
         removed_nodes = processSet(reader);
         incoming_edges = processEdges(reader);
         outgoing_edges = processEdges(reader);
-        originalStreamer.update_components(curr_read, incoming_edges, outgoing_edges, removed_nodes);
-        improvedStreamer.update_components(curr_read, incoming_edges, outgoing_edges, removed_nodes);
-        original = originalStreamer.report_components();
-        improved = improvedStreamer.report_components();
-        if(original != improved){
-            cout<<original<<endl;
-            cout<<"-----------------------------------------------------"<<endl;
-            cout<<improved<<endl;
-            cout<<count<<endl;
-            for(auto k: removed_nodes)cout<<k<<" ";
-            cout<<"\n";
-            break;
+        if(algorithm=="debug"){
+            bool updatedOriginal =  originalStreamer.update_components(curr_read, incoming_edges, outgoing_edges, removed_nodes);
+            bool updatedImproved = improvedStreamer.update_components(curr_read, incoming_edges, outgoing_edges, removed_nodes);
+            original = updatedOriginal ? originalStreamer.report_components() : "empty";
+            improved = updatedImproved ? improvedStreamer.report_components() : "empty";
+            if(original != improved){
+                printDifferences(curr_read, removed_nodes, incoming_edges, outgoing_edges, original, improved);
+                break;
+            }
         }
-        count++;
+        else{
+            bool updated = streamerPtr->update_components(curr_read, incoming_edges, outgoing_edges, removed_nodes);
+            if(fullReport && updated)streamerPtr->report_components();
+        }
     }
     reader.close();
 }

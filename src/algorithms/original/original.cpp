@@ -47,9 +47,9 @@ void OriginalStreamer::relabel_components(int curr_read, const bool incoming, co
   }
 }
 
-void OriginalStreamer::update_components(int curr_read, const std::list<edge>& incoming_edges, const std::list<edge>& outgoing_edges, const std::set<int>& removed_nodes) {
+bool OriginalStreamer::update_components(int curr_read, const std::list<edge>& incoming_edges, const std::list<edge>& outgoing_edges, const std::set<int>& removed_nodes) {
   if (removed_nodes.find(curr_read) != removed_nodes.end()) {
-    return;
+    return false;
   } 
   
   // The current read starts off as its own component 
@@ -80,6 +80,7 @@ void OriginalStreamer::update_components(int curr_read, const std::list<edge>& i
 
     mapping_components.erase(removed_node); 
   }
+  return true;
   
   //Utils().printOrderedMap(component_members);
   //printValues(mapping_components, component_members);
