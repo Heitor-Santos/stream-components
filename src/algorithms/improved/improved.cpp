@@ -38,4 +38,12 @@ void ImprovedStreamer::update_components(int curr_read, const list<edge>& incomi
   for(int removed_node : removed_nodes) {
     union_find.deleteElement(removed_node); 
   }
+  //Utils().printOrderedMap(union_find.getComponents());
+  
+}
+
+string ImprovedStreamer::report_components(){
+  string text = Utils().orderedMapText(union_find.getComponents());
+  writer.append_text(text);
+  return text;
 }

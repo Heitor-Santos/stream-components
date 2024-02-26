@@ -52,6 +52,24 @@ set<int> processSet(FileReader& reader) {
     return createSetFromLine(line);
 }
 
+void printEdge(edge e){
+    cout<<e.source <<" "<< e.target <<" "<< e.slength 
+    <<" "<< e.tlength <<" "<< e.overlap <<" "<< e.sorient <<" "<< e.torient<<endl;
+}
+
+void printDifferences(int curr_read, set<int>&removed_nodes, 
+    list<edge>&incoming_edges, list<edge>&outgoing_edges, string& original, string& improved){
+    cout<<curr_read<<endl;
+    for(auto node: removed_nodes)cout<<node<<" ";
+    cout<<"\n";
+    for(auto in_edge: incoming_edges)printEdge(in_edge);
+    for(auto out_edge: outgoing_edges)printEdge(out_edge);
+    cout<<"-----------------------------------------------------"<<endl;
+    cout<<original<<endl;
+    cout<<"-----------------------------------------------------"<<endl;
+    cout<<improved<<endl;
+}
+
 int main(int argc, char **argv) {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -65,20 +83,37 @@ int main(int argc, char **argv) {
     set<int>removed_nodes;
     list<edge>incoming_edges;
     list<edge>outgoing_edges;
+    string output_file_improved = output_file+"improved";
     OriginalStreamer originalStreamer(output_file);
-    ImprovedStreamer improvedStreamer(output_file);
+    ImprovedStreamer improvedStreamer(output_file_improved);
     Streamer* streamerPtr;
     if (algorithm == "original") {
         streamerPtr = &originalStreamer;
     } else {
         streamerPtr = &improvedStreamer;
     }
+    string original;
+    string improved;
+    int count=0;
     while (reader.next_line(line)) {
         curr_read = stoi(line);
         removed_nodes = processSet(reader);
         incoming_edges = processEdges(reader);
         outgoing_edges = processEdges(reader);
-        streamerPtr->update_components(curr_read, incoming_edges, outgoing_edges, removed_nodes);
+        originalStreamer.update_components(curr_read, incoming_edges, outgoing_edges, removed_nodes);
+        improvedStreamer.update_components(curr_read, incoming_edges, outgoing_edges, removed_nodes);
+        original = originalStreamer.report_components();
+        improved = improvedStreamer.report_components();
+        if(original != improved){
+            cout<<original<<endl;
+            cout<<"-----------------------------------------------------"<<endl;
+            cout<<improved<<endl;
+            cout<<count<<endl;
+            for(auto k: removed_nodes)cout<<k<<" ";
+            cout<<"\n";
+            break;
+        }
+        count++;
     }
     reader.close();
 }

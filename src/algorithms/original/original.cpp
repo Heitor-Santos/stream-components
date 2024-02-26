@@ -4,23 +4,6 @@
 
 using namespace std;
 
-void printValues(const std::unordered_map<int, int>& mapping_components, const std::unordered_map<int, std::set<int>>& component_members) {
-    std::cout << "Values in mapping_components:" << std::endl;
-    for (const auto& pair : mapping_components) {
-        std::cout << pair.second << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "Values in component_members:" << std::endl;
-    for (const auto& pair : component_members) {
-        const std::set<int>& members = pair.second;
-        for (int value : members) {
-            std::cout << value << " ";
-        }
-        std::cout << std::endl;
-    }
-}
-
 OriginalStreamer::OriginalStreamer(string &output_file) {
     writer = FileWriter(output_file);
     mapping_components = unordered_map<int, int>();
@@ -97,5 +80,13 @@ void OriginalStreamer::update_components(int curr_read, const std::list<edge>& i
 
     mapping_components.erase(removed_node); 
   }
+  
+  //Utils().printOrderedMap(component_members);
   //printValues(mapping_components, component_members);
+}
+
+string OriginalStreamer::report_components(){
+  string compText = Utils().orderedMapText(component_members);
+  writer.append_text(compText);
+  return compText;
 }

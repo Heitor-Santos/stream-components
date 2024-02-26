@@ -2,6 +2,7 @@
 #include "node.h"
 
 #include <unordered_map>
+#include <set>
 
 class UnionFind{
 
@@ -18,4 +19,5 @@ public:
     void makeset(int element);
     void unionElements(int indexA, int indexB);
     void deleteElement(int index);
+    std::unordered_map<int, std::set<int>> getComponents();
 };

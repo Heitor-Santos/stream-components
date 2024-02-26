@@ -4,6 +4,9 @@
 #include <string.h>
 #include <list>
 #include <set> 
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
 
 struct edge {
     int source;
@@ -43,4 +46,12 @@ class Streamer {
 public:
     Streamer();
     virtual void update_components(int curr_read, const std::list<edge>& incoming_edges, const std::list<edge>& outgoing_edges, const std::set<int>& removed_nodes)=0;
+    virtual std::string report_components()=0;
+};
+
+class Utils{
+public:
+    Utils();
+    void printOrderedMap(const std::unordered_map<int, std::set<int>>& map);
+    std::string orderedMapText(const std::unordered_map<int, std::set<int>>& map);
 };
