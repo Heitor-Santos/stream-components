@@ -64,23 +64,20 @@ void Utils::printOrderedMap(const unordered_map<int, set<int>>& map) {
 }
 
 string Utils::orderedMapText(const unordered_map<int, set<int>>& map) {
-    // Criar um vetor para armazenar as chaves do mapa
-    vector<int> sortedKeys;
+    vector<string> textList;
+    
+    string text;
     for (const auto& pair : map) {
-        sortedKeys.push_back(pair.first);
-    }
-
-    // Ordenar as chaves do vetor
-    sort(sortedKeys.begin(), sortedKeys.end());
-
-    // Imprimir o mapa com índices e valores ordenados
-    string text="";
-    for (int key : sortedKeys) {
-        for (int value : map.at(key)) {
+        text="";
+        for (int value : pair.second) {
           text += to_string(value);
           text += " ";
         }
-        text+="\n";
+        textList.push_back(text);
     }
-    return text;
+
+    sort(textList.begin(), textList.end());
+    string full_text="";
+    for(string& value: textList)full_text+=value+"\n";
+    return full_text;
 }
