@@ -1,6 +1,7 @@
 #pragma once
 #include "../../utils.h"
 #include "union-find.h"
+#include "node.h"
 
 #include <unordered_map>
 #include <set> 
@@ -11,6 +12,7 @@ class ImprovedStreamer : public Streamer{
 private:
     FileWriter writer;
     UnionFind union_find;
+    int temp_node_counter;
 
 public:
     ImprovedStreamer(std::string &output_file);

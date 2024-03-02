@@ -16,8 +16,10 @@ private:
 public:
     UnionFind();
     Node* find(int index);
+    Node* findSmallest(int index);
     void makeset(int element);
     void unionElements(int indexA, int indexB);
     void deleteElement(int index);
+    bool isSingleSet(int index);
     std::unordered_map<int, std::set<int>> getComponents();
 };

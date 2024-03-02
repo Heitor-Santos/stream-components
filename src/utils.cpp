@@ -56,6 +56,7 @@ void Utils::printOrderedMap(const unordered_map<int, set<int>>& map) {
 
     // Imprimir o mapa com índices e valores ordenados
     for (int key : sortedKeys) {
+        cout<<key<<": ";
         for (int value : map.at(key)) {
           cout << value<< " ";
         }
@@ -69,11 +70,13 @@ string Utils::orderedMapText(const unordered_map<int, set<int>>& map) {
     string text;
     for (const auto& pair : map) {
         text="";
-        for (int value : pair.second) {
+        vector<int>orderedList(pair.second.begin(), pair.second.end());
+        sort(orderedList.begin(), orderedList.end());
+        for (int value : orderedList) {
           text += to_string(value);
           text += " ";
         }
-        textList.push_back(text);
+        if(!text.empty())textList.push_back(text);
     }
 
     sort(textList.begin(), textList.end());
