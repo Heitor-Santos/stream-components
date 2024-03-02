@@ -87,8 +87,8 @@ void UnionFind::deleteElement(int index){
     Node* node = uf[index];
     node->setOccupied(false);
     uf[index]=nullptr;
-    cout<<"a deletar "<<index<<endl;
-    cout<<"a deletar real "<<node->getElement()<<endl;
+    //cout<<"a deletar "<<index<<endl;
+    //cout<<"a deletar real "<<node->getElement()<<endl;
     if(!node->isLeaf()){
     //    cout<<"não é leaf "<<" "<<node->onlyChild()->getElement()<<endl;
         //faz sentido essa condição do isroot?
@@ -134,7 +134,7 @@ unordered_map<int, set<int>> UnionFind::getComponents(){
         if(pair.second != nullptr){
             Node* nodeRoot = find(pair.first); 
             int root = nodeRoot->getElement();
-            cout<<pair.first<<" "<<pair.second->getElement()<<" "<<pair.second->isOccupied()<<endl;
+            //cout<<pair.first<<" "<<pair.second->getElement()<<" "<<pair.second->isOccupied()<<endl;
             //cout<<"oooooooo "<<pair.first<<" "<<root<<endl;
             if (components.find(root) == components.end()) {
                 components[root] = set<int>(); // Inicializa o conjunto se a chave não existir
